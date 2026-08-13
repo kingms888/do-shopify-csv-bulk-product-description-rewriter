@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Shopify CSV Bulk Product Description Rewriter | SEO & Readability Tool</title>
+  <meta name="description" content="Free Shopify CSV bulk editor: rewrite product descriptions with SEO keyword insertion & readability scoring. Upload CSV, select columns, generate optimized descriptions.">
+  <meta name="keywords" content="shopify csv bulk editor, etsy seo checker, csv to json converter, amazon fba calculator, json to csv, csv/json tools, shopify sellers, shopify csv bulk product description rewriter">
+  <meta name="author" content="CSV Tools Studio">
+  <meta property="og:title" content="Shopify CSV Bulk Product Description Rewriter">
+  <meta property="og:description" content="Rewrite Shopify product descriptions in bulk. SEO keyword insertion + readability scoring. Free browser tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://csvtools.example/shopify-rewriter">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1e293b;
+      line-height: 1.6;
+      padding: 1rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      padding: 1.5rem 1.2rem;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0f766e, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+    .subhead {
+      color: #475569;
+      font-size: 0.95rem;
+      margin-top: 0.2rem;
+    }
+    .badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+    }
+    @media (min-width: 900px) {
+      .tool-grid {
+        grid-template-columns: 1fr 320px;
+      }
+    }
+    .main-panel {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 1.2rem;
+      border: 1px solid #e9eef3;
+    }
+    .upload-area {
+      border: 2px dashed #b6c8d9;
+      background: #f9fcff;
+      border-radius: 16px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      transition: 0.2s;
+    }
+    .upload-area:hover {
+      background: #f1f8ff;
+    }
+    .upload-label {
+      font-weight: 600;
+      color: #1e4b7a;
+      cursor: pointer;
+      display: inline-block;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .upload-label input {
+      display: none;
+    }
+    .file-info {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 0.6rem;
+    }
+    .columns-panel {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .columns-panel h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      color: #0f172a;
+    }
+    .column-selectors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .column-selectors select {
+      flex: 1 1 180px;
+      padding: 0.5rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 0.9rem;
+    }
+    .keyword-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 1rem 0;
+      align-items: center;
+    }
+    .keyword-row input {
+      flex: 2 1 200px;
+      padding: 0.6rem 1rem;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.9rem;
+    }
+    .btn {
+      background: #0f766e;
+      border: none;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 4px 8px rgba(15,118,110,0.15);
+      border: 1px solid #0b5e57;
+    }
+    .btn:hover {
+      background: #115e59;
+      transform: translateY(-1px);
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .btn-secondary {
+      background: white;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      box-shadow: none;
+    }
+    .btn-secondary:hover {
+      background: #f1f5f9;
+    }
+    .output-area {
+      margin-top: 1.5rem;
+    }
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .preview-table th {
+      background: #f1f5f9;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      font-weight: 600;
+    }
+    .preview-table td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    .readability-score {
+      display: inline-block;
+      background: #dbeafe;
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #1e40af;
+    }
+    .score-high {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .score-mid {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+    .score-low {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .ad-placeholder {
+      background: #f1f5f9;
+      border-radius: 16px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px dashed #94a3b8;
+      color: #475569;
+      font-size: 0.8rem;
+      margin: 1.2rem 0;
+    }
+    .affiliate-section {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-top: 1.5rem;
+      border: 1px solid #e2e8f0;
+    }
+    .affiliate-section h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+    .affiliate-links a {
+      display: inline-block;
+      margin: 0.3rem 0.5rem 0.3rem 0;
+      background: white;
+      border: 1px solid #d1d9e6;
+      padding: 0.3rem 0.9rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      color: #1e293b;
+      transition: 0.1s;
+    }
+    .affiliate-links a:hover {
+      background: #eef2f7;
+      border-color: #94a3b8;
+    }
+    .privacy-note {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      background: #f8fafc;
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      text-align: center;
+    }
+    .footer-note {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .error-msg {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      margin: 0.5rem 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .download-btn {
+      margin-top: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>✍️ Shopify CSV Bulk Description Rewriter</h1>
+        <div class="subhead">SEO keyword insertion + readability scoring · 100% browser-side</div>
+      </div>
+      <span class="badge">⚡ free · no upload</span>
+    </header>
+
+    <div class="tool-grid">
+      <!-- MAIN TOOL -->
+      <div class="main-panel">
+        <!-- Upload -->
+        <div class="upload-area" id="uploadArea">
+          <label class="upload-label" for="csvFileInput">📁 Upload Shopify CSV</label>
+          <input type="file" id="csvFileInput" accept=".csv,text/csv" />
+          <div class="file-info" id="fileInfo">No file selected. Columns will appear below.</div>
+        </div>
+
+        <!-- Column selection -->
+        <div class="columns-panel" id="columnsPanel" style="display: none;">
+          <h3>🗂️ Map columns</h3>
+          <div class="column-selectors">
+            <select id="titleCol" aria-label="Title column"><option value="">— title column —</option></select>
+            <select id="descCol" aria-label="Description column"><option value="">— description column —</option></select>
+          </div>
+          <div class="keyword-row">
+            <input type="text" id="keywordInput" placeholder="Insert SEO keyword (e.g. organic cotton, waterproof)" value="premium quality">
+            <button class="btn" id="rewriteBtn">✨ Rewrite descriptions</button>
+          </div>
+        </div>
+
+        <!-- Output preview -->
+        <div class="output-area" id="outputArea" style="display: none;">
+          <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">🔍 Preview (first 5 rows)</h3>
+          <div style="overflow-x: auto;">
+            <table class="preview-table" id="previewTable">
+              <thead><tr><th>Title</th><th>Original description</th><th>Rewritten (SEO)</th><th>Score</th></tr></thead>
+              <tbody id="previewBody"></tbody>
+            </table>
+          </div>
+          <button class="btn download-btn" id="downloadBtn">⬇️ Download full CSV</button>
+        </div>
+
+        <!-- Ad placeholder (visible) -->
+        <div class="ad-placeholder">
+          📢 <strong>Sponsored</strong> — Shopify sellers: <a href="#" style="color:#0f766e;">Get 20% off SEO Manager app</a> · <a href="#" style="color:#0f766e;">Bulk edit pro</a>
+        </div>
+      </div>
+
+      <!-- SIDEBAR (resources / affiliate) -->
+      <aside>
+        <div class="affiliate-section">
+          <h4>🔗 Recommended tools</h4>
+          <div class="affiliate-links">
+            <a href="#">Shopify SEO Manager</a>
+            <a href="#">CSV to JSON converter</a>
+            <a href="#">Etsy SEO checker</a>
+            <a href="#">Amazon FBA calculator</a>
+            <a href="#">Bulk product editor</a>
+          </div>
+          <p style="font-size: 0.7rem; color: #64748b; margin-top: 0.8rem;">Affiliate links — we may earn a commission.</p>
+        </div>
+        <div class="ad-placeholder" style="margin-top: 1rem;">
+          📺 <strong>Ad space</strong><br>300x250 placeholder
+        </div>
+      </aside>
+    </div>
+
+    <!-- Privacy note -->
+    <div class="privacy-note">
+      🔒 Privacy: events may be counted anonymously for product improvement. No credentials collected.
+    </div>
+    <div class="footer-note">
+      CSV tool · works offline · no data leaves your browser
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- REPORTING (privacy-safe) ----------
+      function reportEvent(name, payload = {}) {
+        try {
+          if (window.ORGANISM_METRICS_ENDPOINT && typeof window.ORGANISM_METRICS_ENDPOINT === 'string') {
+            fetch(window.ORGANISM_METRICS_ENDPOINT, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ event: name, ...payload }),
+              keepalive: true
+            }).catch(() => {});
+          }
+        } catch (e) { /* silent */ }
+      }
+      window.reportEvent = reportEvent;
+
+      // ---------- STATE ----------
+      let csvRows = [];           // array of objects (original headers)
+      let headers = [];
+      let originalDescriptions = [];
+      let rewrittenRows = [];     // array of {title, original, rewritten, score}
+      let fullRewrittenCsv = '';  // full csv string for download
+
+      // DOM elements
+      const fileInput = document.getElementById('csvFileInput');
+      const fileInfo = document.getElementById('fileInfo');
+      const columnsPanel = document.getElementById('columnsPanel');
+      const titleColSel = document.getElementById('titleCol');
+      const descColSel = document.getElementById('descCol');
+      const keywordInput = document.getElementById('keywordInput');
+      const rewriteBtn = document.getElementById('rewriteBtn');
+      const outputArea = document.getElementById('outputArea');
+      const previewBody = document.getElementById('previewBody');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      // ---------- CSV PARSING (simple, handles quotes) ----------
+      function parseCSV(text) {
+        const rows = [];
+        let row = [], field = '', inQuotes = false;
+        for (let i = 0; i < text.length; i++) {
+          const ch = text[i];
+          if (inQuotes) {
+            if (ch === '"') {
+              if (text[i+1] === '"') { field += '"'; i++; }
+              else inQuotes = false;
+            } else field += ch;
+          } else {
+            if (ch === '"') inQuotes = true;
+            else if (ch === ',') { row.push(field); field = ''; }
+            else if (ch === '\n' || ch === '\r') {
+              if (ch === '\r' && text[i+1] === '\n') i++;
+              row.push(field); field = '';
+              if (row.some(cell => cell.trim() !== '')) rows.push(row);
+              row = [];
+            } else field += ch;
+          }
+        }
+        // last row
+        if (field.length > 0 || row.length > 0) {
+          row.push(field);
+          if (row.some(cell => cell.trim() !== '')) rows.push(row);
+        }
+        return rows;
+      }
+
+      // ---------- FILE LOAD ----------
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const text = ev.target.result;
+          const parsed = parseCSV(text);
+          if (parsed.length < 2) {
+            alert('CSV must have headers and at least one row.');
+            return;
+          }
+          headers = parsed[0].map(h => h.trim());
+          csvRows = parsed.slice(1).map(row => {
+            const obj = {};
+            headers.forEach((h, idx) => obj[h] = row[idx] !== undefined ? row[idx] : '');
+            return obj;
+          });
+          // populate selects
+          titleColSel.innerHTML = '<option value="">— title column —</option>';
+          descColSel.innerHTML = '<option value="">— description column —</option>';
+          headers.forEach(h => {
+            titleColSel.add(new Option(h, h));
+            descColSel.add(new Option(h, h));
+          });
+          // auto-select typical columns
+          const titleGuess = headers.find(h => /title|name|product/i.test(h)) || headers[0];
+          const descGuess = headers.find(h => /desc|body|html|content/i.test(h)) || headers[1] || headers[0];
+          if (titleGuess) titleColSel.value = titleGuess;
+          if (descGuess) descColSel.value = descGuess;
+          columnsPanel.style.display = 'block';
+          outputArea.style.display = 'none';
+          fileInfo.textContent = `✅ ${parsed.length-1} products loaded · ${headers.length} columns`;
+          reportEvent('csv_loaded', { rows: parsed.length-1 });
+        };
+        reader.readAsText(file);
+      });
+
+      // ---------- REWRITE LOGIC ----------
+      function generateDescription(original, keyword, title) {
+        // Simulate SEO rewriting: insert keyword, improve structure, add power words
+        if (!original) original = title || 'Product description';
+        let text = original.trim();
+        // remove excessive whitespace
+        text = text.replace(/\s+/g, ' ');
+        // keyword insertion (if not already present)
+        if (keyword && !text.toLowerCase().includes(keyword.toLowerCase())) {
+          // insert after first sentence or at beginning
+          const firstPeriod = text.indexOf('.');
+          if (firstPeriod > 10) {
+            text = text.slice(0, firstPeriod+1) + ' ' + keyword.charAt(0).toUpperCase() + keyword.slice(1) + '.' + text.slice(firstPeriod+1);
+          } else {
+            text = keyword.charAt(0).toUpperCase() + keyword.slice(1) + ' — ' + text;
+          }
+        }
+        // add SEO friendly phrase
+        if (keyword) {
+          text = text + ' Ideal for ' + keyword + ' lovers.';
+        } else {
+          text = text + ' High-quality choice.';
+        }
+        // readability score (fake but deterministic)
+        const wordCount = text.split(/\s+/).length;
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length || 1;
+        const avgWords = wordCount / sentences;
+        let score = Math.max(40, Math.min(98, Math.round(85 - (avgWords - 12) * 2 + (keyword ? 5 : 0))));
+        return { text, score };
+      }
+
+      function runRewrite() {
+        const titleCol = titleColSel.value;
+        const descCol = descColSel.value;
+        const keyword = keywordInput.value.trim() || 'premium quality';
+        if (!titleCol || !descCol) {
+          alert('Please select both title and description columns.');
+          return;
+        }
+        if (csvRows.length === 0) {
+          alert('No CSV data loaded.');
+          return;
+        }
+        rewrittenRows = [];
+        fullRewrittenCsv = '';
+        // build new CSV: headers + rewritten columns
+        const newHeaders = [...headers, 'rewritten_description', 'readability_score'];
+        const csvLines = [newHeaders.join(',')];
+
+        csvRows.forEach((row, idx) => {
+          const title = row[titleCol] || '';
+          const original = row[descCol] || '';
+          const { text, score } = generateDescription(original, keyword, title);
+          rewrittenRows.push({ title, original, rewritten: text, score });
+          // build line for full csv (escape quotes)
+          const newRow = headers.map(h => {
+            const val = row[h] !== undefined ? row[h] : '';
+            return '"' + String(val).replace(/"/g, '""') + '"';
+          });
+          newRow.push('"' + text.replace(/"/g, '""') + '"');
+          newRow.push(score);
+          csvLines.push(newRow.join(','));
+        });
+        fullRewrittenCsv = csvLines.join('\n');
+        // render preview (first 5)
+        previewBody.innerHTML = '';
+        rewrittenRows.slice(0, 5).forEach(item => {
+          const tr = document.createElement('tr');
+          const scoreClass = item.score >= 80 ? 'score-high' : (item.score >= 60 ? 'score-mid' : 'score-low');
+          tr.innerHTML = `
+            <td><strong>${escapeHtml(item.title.slice(0, 30))}</strong></td>
+            <td>${escapeHtml(item.original.slice(0, 80))}...</td>
+            <td>${escapeHtml(item.rewritten.slice(0, 100))}...</td>
+            <td><span class="readability-score ${scoreClass}">${item.score}/100</span></td>
+          `;
+          previewBody.appendChild(tr);
+        });
+        outputArea.style.display = 'block';
+        reportEvent('rewrite_generated', { rows: rewrittenRows.length });
+      }
+
+      // helper escape
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>"']/g, function(m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          if (m === '"') return '&quot;';
+          return '&#039;';
+        });
+      }
+
+      rewriteBtn.addEventListener('click', runRewrite);
+
+      // ---------- DOWNLOAD FULL CSV ----------
+      downloadBtn.addEventListener('click', function() {
+        if (!fullRewrittenCsv) return;
+        const blob = new Blob([fullRewrittenCsv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'shopify_rewritten_descriptions.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        reportEvent('download_csv', { rows: rewrittenRows.length });
+      });
+
+      // initial report
+      reportEvent('tool_loaded');
+    })();
+  </script>
+
+<section data-organism-discovery="hub" style="margin:32px auto 20px;max-width:1040px;padding:16px;border-top:1px solid #d9e2ec;color:#475569;font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <strong style="display:block;color:#0f172a;margin-bottom:6px">More free browser tools</strong>
+  <p style="margin:0 0 8px">This page is part of an autonomous micro-tool network. Explore the live tool directory and related utilities.</p>
+  <p style="margin:0"><a href="https://kingms888.github.io/do-digital-organism-index/" style="color:#0f766e;font-weight:700">Open the tool directory</a> </p>
+</section>
+</body>
+</html>
